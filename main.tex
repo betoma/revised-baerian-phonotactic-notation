@@ -1,30 +1,56 @@
-\documentclass{scrartcl}
+\documentclass[a4paper,11pt,openany,article]{memoir}
 
-\usepackage[a4paper, margin=1.3in]{geometry}
 \usepackage{amsmath}
-\usepackage{float}
-\usepackage{libertine}
-\usepackage{relsize}
-\usepackage[UKenglish]{isodate}
+\usepackage{amssymb}
+\usepackage{libertinus-otf}
+\usepackage[calc,english]{datetime2}
+\usepackage{csquotes}
 
-\date{1st August 2017}
+\DTMnewdatestyle{eurodate}{%
+    \renewcommand{\DTMdisplaydate}[4]{%
+        \number##3.\nobreakspace%           day
+        \DTMmonthname{##2}\nobreakspace%    month
+        \number##1%                         year
+    }%
+    \renewcommand{\DTMDisplaydate}{\DTMdisplaydate}%
+}
+
+\DTMsetdatestyle{eurodate}
 
 \newcommand{\nulls}[0]{\symbol{"2205}}
 
-\title{Recursive Baerian Phonotactics Notation}
-\author{L. L. Blumire}
+\setlrmarginsandblock{1.3in}{*}{*}
+\setulmarginsandblock{1.3in}{*}{1}
+\checkandfixthelayout
+
+\setlength{\parindent}{0pt}
+\nonzeroparskip
+\renewcommand{\thesection}{\arabic{section}}
+
+\title{Revised Baerian Phonotactic Notation}
+\author{Bethany E. Toma}
+\date{\today}
 
 \begin{document}
-\pagenumbering{gobble}
+\pagestyle{empty}
 
 \maketitle
 
-\vspace{-3em}
-\begin{center}
-Edited by Sascha M. Baer
-\end{center}
-\vspace{1em}
+\section{Introduction}
 
+Within linguistics (and, as a result, in documenting constructed languages), the allowed syllable structure for a given language is sometimes represented as a string showing the set of possible syllable structures allowed in the language. A capital C is used to indicate that any consonant in the language's phoneme inventory can be placed in that position, and a capital V is used for any vowel. Parentheses are used to enclose optional elements and can be used recursively. 
+
+For example, C(C)V(C(C)) represents a syllable structure in which the onset must contain at least one consonant and can optionally contain a second, the nucleus must consist of a single vowel, and the coda is optional but can contain up to two consonants. Some use this notation with other letters to indicate smaller subsets of the language's phoneme inventory in order to capture the language's phonotactics more completely (e.g., using R to represent rhotics or L for liquids). However, there is next to no standardization in this notation, so use of letters other than C or V tends to be ideosyncratic.
+
+In addition to a lack of standardization, this notation is not particularly robust. Since it is traditionally used only to notate possible syllable structures, it generally isn't capable of representing phonotactic restrictions on which syllables may occur together. Within natural language documentation, this may well be due to a lack of a need for this feature from the notation---if natural languages possess such restrictions, they can simply be described in the text of the documentation, which is generally how most other phonotactic rules are handled in linguistic work. However, due to the increased flexibility present when dealing with constructed languages, the ability to represent restrictions on how different types of syllables can interact through such a notation may prove more valuable.
+
+Recursive Baerian\footnote{/ˈbɛɹiən/} Phonotactic Notation was invented in 2017 by Sascha M. Baer as a more robust way of notating phonotactic structures. It was originally developed for the constructed language \enquote{Qahfó} but has since been used to describe the phonotactics of several other conlangs. However, it has some potential pitfalls and complexities that can make it somewhat cumbersome for certain types of structures. For that reason, this paper introduces a revision that changes certain features of the notation to hopefully allow for more concise, easier-to-read outputs.
+
+\section{Structure of Original Recursive Baerian Phonotactic Notation}
+
+Recusrive Baerian Phonotactic Notation represent the structure of a language's phonotactics by representing wordforms and their subcomponents as \enquote{blocks.}
+
+\end{document}
 
 Recursive Baerian\footnote{/ˈbɛɹiən/} Phonotactics Notation (A.K.A Baerian Notation, RBPN) was invented by Sascha M. Baer on the 1st May 2017 for describing the phonotactics of the constructed language `Qahfó'. It allows for rigorous but simple definitions, and is easily extensible.
 
@@ -37,7 +63,7 @@ An example of it can be seen in this definition of the constructed language `Xek
             \substack{\displaystyle \text{C  }\vspace{2pt}\\\displaystyle \text{PF  }} 
             \substack{\displaystyle \text{V  }\vspace{2pt}\\\displaystyle \hspace{-2.5pt}\text{D}}
             \substack{\displaystyle \text{C  }\vspace{2pt}\\\displaystyle \hspace{-2.5pt}\text{\nulls}}
-            \substack{\displaystyle \vspace{1pt}\\\mathlarger{\sigma}\vspace{3pt}\\\displaystyle \text{\nulls}\vspace{2pt}}
+            \substack{\displaystyle \vspace{1pt}\\\sigma\vspace{3pt}\\\displaystyle \text{\nulls}\vspace{2pt}}
         \Big]
     \bigg]
 \# 
@@ -76,4 +102,4 @@ For reference, the following is the original use case of the notation, describin
 \Bigg]\# 
 \]
 
-\end{document}
+

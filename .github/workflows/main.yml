@@ -1,0 +1,56 @@
+
+name: Build and release pdf
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checkout this repository
+      - name: Checkout this repo
+        uses: actions/checkout@v2
+        # with:
+        #   submodules: true
+
+      # Builds pdf with TexLive and LuaLaTeX
+      - name: Compile
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: main.tex
+          latexmk_use_lualatex: true
+      
+      - name: Get current fate
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y%m%d')"
+      
+      - name: Rename file
+        run: mv main.pdf ${{ steps.date.outputs.date }}_Revised_Baerian_Phonotactic_Notation.pdf
+
+      # Uploads zip file containing pdf(s) to the workflow tab
+      - name: Upload
+        uses: actions/upload-artifact@v2
+        with:
+          name: PDF
+          path: ${{ steps.date.outputs.date }}_Revised_Baerian_Phonotactic_Notation.pdf
+      
+      # Publishes pdf and license for tagged releases
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: ${{ steps.date.outputs.date }}_Revised_Baerian_Phonotactic_Notation.pdf
